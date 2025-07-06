@@ -1257,3 +1257,130 @@ body {
     gap: 2rem;
     margin: 1.5rem 0;
 }
+
+.worksheet-printout-info {
+    background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
+    border-left: 4px solid #3498db;
+    padding: 1rem 1.2rem;
+    margin: 1.2rem 1.5rem 0.5rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    color: #2c3e50;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.07);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.worksheet-printout-info a {
+    color: #1565c0;
+    font-weight: bold;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.worksheet-printout-info a:hover {
+    color: #0d47a1;
+}
+
+.facilitator-guide-toggle {
+    position: fixed;
+    bottom: 30px;
+    left: 20px;
+    z-index: 1600;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    color: #667eea;
+    border: 2px solid #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.facilitator-guide-toggle:hover,
+.facilitator-guide-toggle:focus {
+    background: #f0f4ff;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+}
+
+.facilitator-guide-panel {
+    position: fixed;
+    top: 0;
+    left: -420px;
+    width: 400px;
+    height: 100vh;
+    background: #f8f9fa;
+    box-shadow: 2px 0 20px rgba(102, 126, 234, 0.15);
+    z-index: 2100;
+    padding: 0 0 2rem 0;
+    display: flex;
+    flex-direction: column;
+    transition: left 0.35s cubic-bezier(.77, 0, .18, 1);
+    overflow-y: auto;
+}
+
+.facilitator-guide-panel.open {
+    left: 0;
+}
+
+.facilitator-guide-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #667eea;
+    color: white;
+    padding: 1.2rem 1.5rem 1.2rem 1.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 0 0 12px 0;
+}
+
+.facilitator-guide-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-left: 1rem;
+    line-height: 1;
+}
+
+.facilitator-guide-content {
+    padding: 1.5rem;
+    font-size: 1.05rem;
+    color: #2c3e50;
+}
+
+.facilitator-guide-content h4 {
+    margin-top: 1.2rem;
+    color: #667eea;
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+.facilitator-guide-content ul {
+    margin: 0.5rem 0 1rem 1.2rem;
+    padding-left: 0;
+}
+
+.facilitator-guide-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.facilitator-guide-content a {
+    color: #1565c0;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.facilitator-guide-content a:hover {
+    color: #0d47a1;
+}

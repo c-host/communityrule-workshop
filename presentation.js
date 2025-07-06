@@ -272,6 +272,33 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // --- Facilitator Guide Panel Logic ---
+    // Use existing worksheetToggle and worksheetPanel variables
+    const facilitatorGuideToggle = document.getElementById('facilitator-guide-toggle');
+    const facilitatorGuidePanel = document.getElementById('facilitator-guide-panel');
+    const facilitatorGuideClose = document.getElementById('facilitator-guide-close');
+
+    if (facilitatorGuideToggle && facilitatorGuidePanel && facilitatorGuideClose) {
+        facilitatorGuideToggle.addEventListener('click', () => {
+            facilitatorGuidePanel.classList.add('open');
+            // Close worksheet panel if open
+            if (worksheetPanel) worksheetPanel.classList.remove('open');
+        });
+        facilitatorGuideClose.addEventListener('click', () => {
+            facilitatorGuidePanel.classList.remove('open');
+        });
+        // Optional: close panel on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') facilitatorGuidePanel.classList.remove('open');
+        });
+        // If worksheet panel is opened, close facilitator guide
+        if (worksheetToggle && worksheetPanel) {
+            worksheetToggle.addEventListener('click', () => {
+                facilitatorGuidePanel.classList.remove('open');
+            });
+        }
+    }
+
     // --- Facilitator Background Dynamic Embed Logic ---
     (function () {
         const addBtn = document.querySelector('.add-embed-btn');

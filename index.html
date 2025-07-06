@@ -16,6 +16,12 @@
             <span>Workshop Planning Worksheet</span>
             <button id="worksheet-close" class="worksheet-close" title="Close">&times;</button>
         </div>
+        <!-- Worksheet Printout Info -->
+        <div class="worksheet-printout-info">
+            <span>A printout of the worksheet is available <a
+                    href="https://docs.google.com/document/d/e/2PACX-1vR7SWCC0WWY-rQ7CP2pOc9OYtL1sgiRlIe34OPho76Pcu2CSImcE8Bc9e4xrCEYqtsdiamoUzeP_j4S/pub"
+                    target="_blank">here</a></span>
+        </div>
         <form id="worksheet-form">
             <label>Group Name:<br><input type="text" name="groupName" /></label>
             <label>Group Summary:<br><textarea name="groupName" /></textarea></label>
@@ -41,6 +47,50 @@
             <label>Other Structural Elements:<br><textarea name="structureOther"></textarea></label>
             <button type="button" id="worksheet-download">Download as .txt</button>
         </form>
+    </div>
+
+    <!-- Facilitator Guide Icon and Panel -->
+    <button id="facilitator-guide-toggle" class="facilitator-guide-toggle" title="Facilitator Guide"
+        aria-label="Facilitator Guide">❔</button>
+    <div id="facilitator-guide-panel" class="facilitator-guide-panel">
+        <div class="facilitator-guide-header">
+            <span>Facilitator Quick Guide</span>
+            <button id="facilitator-guide-close" class="facilitator-guide-close" title="Close">&times;</button>
+        </div>
+        <div class="facilitator-guide-content">
+            <h4>How to Use This Workshop Web Page</h4>
+            <ul>
+                <li><strong>Navigation:</strong> Scroll or use the section dots on the right to move between sections.
+                </li>
+                <li><strong>Timer:</strong> Click the ⏱️ icon (top right) for a facilitator timer. Use presets or set
+                    custom times. Fullscreen mode is available for projection.</li>
+                <li><strong>Worksheet:</strong> Click the 📝 icon (top left) to open the planning worksheet.
+                    Participants can fill it out live or download a printout.</li>
+                <li><strong>Dynamic Embeds:</strong> In "Facilitator Background," use <b>+ Add Embed</b> to add YouTube,
+                    CommunityRule, or other resources live.</li>
+                <li><strong>Facilitator Guide:</strong> (this panel) for a quick reference at any time.</li>
+            </ul>
+            <h4>Workshop Flow Tips</h4>
+            <ul>
+                <li>Follow the sections in order for a smooth workshop experience.</li>
+                <li>Use the timer to keep activities on track.</li>
+                <li>Encourage participants to use the worksheet for group work and reflection.</li>
+                <li>Project the web page or share your screen for remote/hybrid workshops.</li>
+                <li>Use the <a href="https://communityrule.info/guides/governance-workshop/"
+                        target="_blank">CommunityRule Workshop Guide</a> for more facilitation ideas.</li>
+            </ul>
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="https://docs.google.com/document/d/e/2PACX-1vR7SWCC0WWY-rQ7CP2pOc9OYtL1sgiRlIe34OPho76Pcu2CSImcE8Bc9e4xrCEYqtsdiamoUzeP_j4S/pub"
+                        target="_blank">Printable Worksheet</a></li>
+                <li><a href="https://github.com/c-host/communityrule-workshop" target="_blank">GitHub Source</a></li>
+                <li><a href="https://communityrule.info/" target="_blank">CommunityRule</a></li>
+            </ul>
+            <div style="margin-top:1.2rem; font-size:1rem; color:#667eea;">
+                <strong>Tip:</strong> This site is open source and designed for remixing. You are welcome to adapt it
+                for your own community!
+            </div>
+        </div>
     </div>
 
     <!-- Timer Minimized Icon -->
