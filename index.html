@@ -10,6 +10,38 @@
 </head>
 
 <body>
+    <button id="worksheet-toggle" class="worksheet-toggle" title="Open Worksheet">📝 Worksheet</button>
+    <div id="worksheet-panel" class="worksheet-panel">
+        <div class="worksheet-header">
+            <span>Workshop Planning Worksheet</span>
+            <button id="worksheet-close" class="worksheet-close" title="Close">&times;</button>
+        </div>
+        <form id="worksheet-form">
+            <label>Group Name:<br><input type="text" name="groupName" /></label>
+            <label>Group Summary:<br><textarea name="groupName" /></textarea></label>
+            <h4>Culture</h4>
+            <label>Purpose (why it exists):<br><textarea name="culturePurpose"></textarea></label>
+            <label>Values (what's important):<br><textarea name="cultureValues"></textarea></label>
+            <label>Norms (how people should behave):<br><textarea name="cultureNorms"></textarea></label>
+            <label>Other Important Cultural Elements:<br><textarea name="cultureOther"></textarea></label>
+            <h4>Decisions</h4>
+            <label>Methods (ways to decide):<br><textarea name="decisionMethods"></textarea></label>
+            <label>Who Decides:<br><textarea name="decisionWho"></textarea></label>
+            <label>Process (how to vote or agree):<br><textarea name="decisionProcess"></textarea></label>
+            <label>Other Decision-Making Notes:<br><textarea name="decisionOther"></textarea></label>
+            <h4>Process (Getting Things Done)</h4>
+            <label>How Things are Done:<br><textarea name="processHow"></textarea></label>
+            <label>How Rules Change:<br><textarea name="processChanges"></textarea></label>
+            <label>Checked (making sure things get done):<br><textarea name="processChecking"></textarea></label>
+            <label>Other Process Notes:<br><textarea name="processOther"></textarea></label>
+            <h4>Structure</h4>
+            <label>Roles (what jobs need to be done):<br><textarea name="structureJobs"></textarea></label>
+            <label>Membership Criteria (who can join):<br><textarea name="structureMembership"></textarea></label>
+            <label>Rights (what members can do):<br><textarea name="structureRights"></textarea></label>
+            <label>Other Structural Elements:<br><textarea name="structureOther"></textarea></label>
+            <button type="button" id="worksheet-download">Download as .txt</button>
+        </form>
+    </div>
 
     <div class="container">
         <!-- Header -->
@@ -51,6 +83,12 @@
                             <iframe src="https://c-host.site/" width="100%" height="100%" frameborder="0"></iframe>
                         </div>
                     </ul>
+                    <ul class="list">
+                        <li>Background in music composition</li>
+                        <li>Experience collaboratively archiving activities of online communities</li>
+                        <li>Running online reading groups and creative activities</li>
+                        <li>Previously a community manager at Metagov</li>
+                    </ul>
                 </div>
 
                 <div class="timeline-detail">
@@ -61,6 +99,17 @@
                         <p>Self-governance is how groups make choices and organize themselves. It's about creating clear
                             ways of working
                             together that everyone can understand and participate in.</p>
+                    </div>
+
+                    <div>
+                        <h3>Why Rules</h3>
+                        <ul class="list">
+                            <li>Helps groups work together effectively</li>
+                            <li>Makes decision-making (choosing things) clear and fair</li>
+                            <li>Prevents conflicts, problems, and confusion</li>
+                            <li>Helps make sure everyone's voice is heard</li>
+                            <li>Make accountability more possible</li>
+                        </ul>
                     </div>
 
                     <div style="display: flex; align-items: flex-start; gap: 2rem;">
@@ -193,8 +242,9 @@
                             <p>CommunityRule is a project of the <a href="https://www.colorado.edu/lab/medlab/"
                                     target="_blank">Media Enterprise Design Lab</a> at the University of Colorado
                                 Boulder, in collaboration with <a href="https://metagov.org/"
-                                    target="_blank">Metagov</a>. It is primarily authored by MEDLab director Nathan
-                                Schneider and <a href="https://www.dhornbein.com/" target="_blank">Drew
+                                    target="_blank">Metagov</a>. It is primarily authored by MEDLab director <a
+                                    href="https://nathanschneider.info/">Nathan
+                                    Schneider</a> and <a href="https://www.dhornbein.com/" target="_blank">Drew
                                     Hornbein</a>.</p>
                         </div>
                     </div>
@@ -219,7 +269,7 @@
                             <h4>Video: Kids Creating Their Own Governance</h4>
                             <div class="video-container">
                                 <iframe width="100%" height="400"
-                                    src="https://www.youtube.com/embed/79EeSt8L7cw?start=275" frameborder="0"
+                                    src="https://www.youtube.com/embed/79EeSt8L7cw?start=275&rel=0" frameborder="0"
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     allowfullscreen></iframe>
                             </div>
@@ -275,8 +325,9 @@
             <div class="timeline-item">
                 <div class="timeline-detail">
                     <h2>Overview</h2>
-                    <li><strong>Individual Activity:</strong> Think about a group you're part of</li>
-                    <li><strong>Small Group Discussion:</strong> Compare your ideas </li>
+                    <li><strong>Individual Activity:</strong> Think about a group you're part of and describe the way it
+                        works and is organized</li>
+                    <li><strong>Small Group Discussion:</strong> Compare your ideas notes</li>
                 </div>
 
                 <div class="timeline-detail">
@@ -294,9 +345,14 @@
                             </ul>
 
                             <h4>Example: Book Club</h4>
-                            <p>Everyone: brings books, reads beforehand, participates in discussion, helps choose next
-                                book,
-                                attends meetings</p>
+                            <p>Everyone:</p>
+                            <ul class="list">
+                                <li>brings books</li>
+                                <li>reads beforehand</li>
+                                <li>participates in discussion</li>
+                                <li>helps choose the next book</li>
+                                <li>attends meetings</li>
+                            </ul>
                         </div>
 
                         <div class="info-card">
@@ -327,7 +383,7 @@
         </div>
 
         <div class="section">
-            <div class="time">Exercise 2: Designing and Implementing New Group Rules | 0:45 - 1:40</div>
+            <div class="time">Exercise 2: Designing and Implementing New Group Rules | 0:45 - 1:45</div>
             <div class="timeline-item">
                 <div class="timeline-detail">
                     <h2>Overview</h2>
@@ -335,20 +391,6 @@
                     <li><strong>Small group activity:</strong> Design a group that would work well</li>
                     <li><strong>Making a Community Rule:</strong> Turn paper ideas into CommunityRule</li>
                     <li><strong>Large Group Discussion:</strong> reflections and sharing</li>
-                </div>
-
-                <div class="timeline-detail">
-                    <h2>Step-by-Step Review of CommunityRule [5 Minutes]</h2>
-                    <p>Let's explore how to use CommunityRule together:</p>
-                    <div class="embed-container">
-                        <iframe src="https://communityrule.info/" width="100%" height="600" frameborder="0"></iframe>
-                    </div>
-                    <p><strong>Key Steps:</strong></p>
-                    <ol class="numbered-list">
-                        <li>Click "Create" to start a new Rule</li>
-                        <li>Drag and drop elements from: Culture, Decision, Process, Structure</li>
-                        <li>Add details to each area with clear descriptions</li>
-                    </ol>
                 </div>
 
                 <div class="timeline-detail">
@@ -400,22 +442,37 @@
                         </div>
                         <div class="info-card">
                             <h4>Option 2</h4>
-                            <p>Work with one small group to show everyone how they can turn their paper ideas into a
+                            <p>Facilitator works with one small group to demonstrate to everyone how they can turn their
+                                paper ideas into a
                                 Rule using CommunityRule</p>
                         </div>
                     </div>
                     <div class="highlight-box">
                         <h4>Optional: Publishing Rules</h4>
                         <p>Participants can publish creations to the Library (optional). Note: Library is experimental
-                            and deletion requires admin contact.</p>
+                            and deletion requires contacting the website administrators.</p>
                     </div>
                 </div>
 
                 <div class="timeline-detail">
-                    <h2>Large Group Discussion [10 Minutes]</h2>
+                    <h2>For Option 1: Step-by-Step Review of Using CommunityRule [5 Minutes]</h2>
+                    <p>Let's explore how to use CommunityRule together:</p>
+                    <div class="embed-container">
+                        <iframe src="https://communityrule.info/" width="100%" height="600" frameborder="0"></iframe>
+                    </div>
+                    <p><strong>Key Steps:</strong></p>
+                    <ol class="numbered-list">
+                        <li>Click "Create" to start a new Rule</li>
+                        <li>Drag and drop elements from: Culture, Decision, Process, Structure</li>
+                        <li>Add details to each area with clear descriptions</li>
+                    </ol>
+                </div>
+
+                <div class="timeline-detail">
+                    <h2>Large Group Discussion [15 Minutes]</h2>
 
                     <h4>Sharings</h4>
-                    <p>Small groups discuss:</p>
+                    <p>One representative from each small group shares:</p>
                     <li>Their CommunityRule</li>
                     <li>Discuss major choices</li>
                     <li>Share what worked well and what was challenging</li>
@@ -425,10 +482,10 @@
         </div>
 
         <div class="section">
-            <div class="time">Open Discussion and Wrap-up | 1:40 - 2:00</div>
+            <div class="time">Open Discussion and Wrap-up | 1:45 - 2:00</div>
             <div class="timeline-item">
                 <div class="timeline-detail">
-                    <h2>Closing Discussion [20 Minutes]</h2>
+                    <h2>Closing Discussion [15 Minutes]</h2>
                     <p>A closing discussion to share governance best practices, identify next steps for participants,
                         and gather workshop feedback through Q&A.</p>
 

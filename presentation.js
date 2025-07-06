@@ -205,4 +205,123 @@ document.addEventListener('DOMContentLoaded', function () {
             details[0].classList.add('active');
         }
     });
+
+    // --- Embed Fullscreen Button ---
+    document.querySelectorAll('.embed-container').forEach(container => {
+        // Add button if not present
+        if (!container.querySelector('.fullscreen-btn')) {
+            const btn = document.createElement('button');
+            btn.className = 'fullscreen-btn';
+            btn.title = 'Expand to fullscreen';
+            btn.innerHTML = '⛶';
+
+            function isFullscreen() {
+                return document.fullscreenElement === container ||
+                    document.webkitFullscreenElement === container ||
+                    document.msFullscreenElement === container;
+            }
+
+            function enterFullscreen() {
+                if (container.requestFullscreen) {
+                    container.requestFullscreen();
+                } else if (container.webkitRequestFullscreen) {
+                    container.webkitRequestFullscreen();
+                } else if (container.msRequestFullscreen) {
+                    container.msRequestFullscreen();
+                }
+            }
+
+            function exitFullscreen() {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!isFullscreen()) {
+                    enterFullscreen();
+                } else {
+                    exitFullscreen();
+                }
+            });
+
+            // Listen for fullscreen change to update button icon/title
+            function updateBtn() {
+                if (isFullscreen()) {
+                    btn.innerHTML = '🡸';
+                    btn.title = 'Exit fullscreen';
+                } else {
+                    btn.innerHTML = '⛶';
+                    btn.title = 'Expand to fullscreen';
+                }
+            }
+            document.addEventListener('fullscreenchange', updateBtn);
+            document.addEventListener('webkitfullscreenchange', updateBtn);
+            document.addEventListener('msfullscreenchange', updateBtn);
+
+            container.appendChild(btn);
+        }
+    });
+
+    // --- Worksheet Fly-out Panel Logic ---
+    const worksheetToggle = document.getElementById('worksheet-toggle');
+    const worksheetPanel = document.getElementById('worksheet-panel');
+    const worksheetClose = document.getElementById('worksheet-close');
+    const worksheetForm = document.getElementById('worksheet-form');
+    const worksheetDownload = document.getElementById('worksheet-download');
+
+    if (worksheetToggle && worksheetPanel && worksheetClose && worksheetForm && worksheetDownload) {
+        worksheetToggle.addEventListener('click', () => {
+            worksheetPanel.classList.toggle('open');
+        });
+        worksheetClose.addEventListener('click', () => {
+            worksheetPanel.classList.remove('open');
+        });
+        // Optional: close panel on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') worksheetPanel.classList.remove('open');
+        });
+        // Download as .txt
+        worksheetDownload.addEventListener('click', () => {
+            const data = new FormData(worksheetForm);
+            let txt = '';
+            txt += `Group Name: ${data.get('groupName') || ''}\n\n`;
+            txt += `Group Culture\n`;
+            txt += `Purpose: ${data.get('culturePurpose') || ''}\n`;
+            txt += `Values: ${data.get('cultureValues') || ''}\n`;
+            txt += `Norms: ${data.get('cultureNorms') || ''}\n`;
+            txt += `Other Important Cultural Elements: ${data.get('cultureOther') || ''}\n\n`;
+            txt += `Making Decisions\n`;
+            txt += `Methods: ${data.get('decisionMethods') || ''}\n`;
+            txt += `Who Decides: ${data.get('decisionWho') || ''}\n`;
+            txt += `Process: ${data.get('decisionProcess') || ''}\n`;
+            txt += `Other Decision-Making Notes: ${data.get('decisionOther') || ''}\n\n`;
+            txt += `Getting Things Done\n`;
+            txt += `How: ${data.get('processHow') || ''}\n`;
+            txt += `Changes: ${data.get('processChanges') || ''}\n`;
+            txt += `Checking: ${data.get('processChecking') || ''}\n`;
+            txt += `Other Process Notes: ${data.get('processOther') || ''}\n\n`;
+            txt += `Group Structure\n`;
+            txt += `Jobs: ${data.get('structureJobs') || ''}\n`;
+            txt += `Membership: ${data.get('structureMembership') || ''}\n`;
+            txt += `Rights: ${data.get('structureRights') || ''}\n`;
+            txt += `Other Structural Elements: ${data.get('structureOther') || ''}\n`;
+            const blob = new Blob([txt], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'communityrule-worksheet.txt';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        });
+    }
 });
