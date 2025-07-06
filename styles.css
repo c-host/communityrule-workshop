@@ -19,11 +19,12 @@ body {
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1250px;
     margin: 0 auto;
     background: white;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
     min-height: 100vh;
+    /* Remove bottom margin to avoid extra space */
 }
 
 /* Header Styles */
@@ -290,11 +291,8 @@ body {
 }
 
 .list li::before {
-    content: '•';
-    color: #667eea;
-    font-weight: bold;
-    position: absolute;
-    left: 0;
+    content: '';
+    /* Removed blue dot bullet */
 }
 
 .numbered-list {
@@ -499,12 +497,14 @@ body {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 2.5rem 2rem 2rem 2rem;
     margin-top: 2rem;
     border-radius: 20px;
     margin-left: 2rem;
     margin-right: 2rem;
-    margin-bottom: 2rem;
+    /* Remove margin-bottom to avoid extra space */
+    margin-bottom: 0;
+    box-shadow: 0 4px 24px rgba(44, 62, 80, 0.10);
 }
 
 .footer a {
@@ -541,7 +541,7 @@ body {
     position: fixed;
     right: 2rem;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-20%);
     z-index: 100;
     display: flex;
     flex-direction: column;
@@ -552,7 +552,7 @@ body {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: rgba(102, 126, 234, 0.3);
+    background: rgba(12, 24, 82, 0.3);
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -802,22 +802,28 @@ body {
 .worksheet-toggle {
     position: fixed;
     top: 30px;
-    left: 0;
-    z-index: 2000;
-    background: #667eea;
-    color: white;
-    border: none;
-    border-radius: 0 8px 8px 0;
-    padding: 12px 18px;
-    font-size: 1.3rem;
-    font-weight: bold;
+    left: 20px;
+    z-index: 1600;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    color: #667eea;
+    border: 2px solid #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    box-shadow: 2px 2px 10px rgba(102, 126, 234, 0.15);
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
+    outline: none;
 }
 
-.worksheet-toggle:hover {
-    background: #4b5fd8;
+.worksheet-toggle:hover,
+.worksheet-toggle:focus {
+    background: #f0f4ff;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
 }
 
 .worksheet-panel {
@@ -909,4 +915,345 @@ body {
 
 #worksheet-form button[type="button"]:hover {
     background: #4b5fd8;
+}
+
+.add-embed-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s;
+}
+
+.add-embed-btn:hover {
+    background: #4b5fd8;
+}
+
+.add-embed-form input[type="url"] {
+    border: 1px solid #b3d9ff;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-right: 0.5rem;
+}
+
+.add-embed-form button[type="submit"] {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-right: 0.5rem;
+}
+
+.add-embed-form button[type="submit"]:hover {
+    background: #4b5fd8;
+}
+
+.cancel-embed-btn {
+    background: #eee;
+    color: #333;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cancel-embed-btn:hover {
+    background: #ddd;
+}
+
+#facilitator-embed-list {
+    margin-bottom: 1rem;
+}
+
+#facilitator-embed-list .embed-container {
+    margin: 1rem 0;
+}
+
+/* Workshop Timer Styles */
+.timer-minimized-icon {
+    position: fixed;
+    top: 30px;
+    right: 20px;
+    z-index: 1600;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #fff;
+    color: #667eea;
+    border: 2px solid #667eea;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.timer-minimized-icon:hover,
+.timer-minimized-icon:focus {
+    background: #f0f4ff;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.25);
+}
+
+.workshop-timer {
+    display: none;
+}
+
+.workshop-timer.visible {
+    display: block;
+}
+
+/* Hide minimized icon when timer is fullscreen */
+.workshop-timer.fullscreen+#timer-minimized-icon,
+#timer-minimized-icon.fullscreen {
+    display: none !important;
+}
+
+/* Adjust z-index for timer and icon */
+.workshop-timer,
+.timer-minimized-icon {
+    z-index: 1600;
+}
+
+.workshop-timer {
+    position: fixed;
+    top: 30px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 2px solid #667eea;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+    z-index: 1500;
+    min-width: 280px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.workshop-timer:hover {
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.3);
+}
+
+.timer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.timer-display {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: #2c3e50;
+    min-width: 100px;
+    text-align: center;
+}
+
+.timer-controls {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.timer-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    min-width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-btn:hover {
+    background: #4b5fd8;
+}
+
+.timer-presets {
+    display: flex;
+    gap: 0.3rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.preset-btn {
+    background: #f8f9fa;
+    color: #667eea;
+    border: 1px solid #667eea;
+    border-radius: 6px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.preset-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+.preset-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+.timer-custom {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.timer-custom input {
+    width: 50px;
+    padding: 0.3rem;
+    border: 1px solid #b3d9ff;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.timer-custom span {
+    font-weight: bold;
+    color: #667eea;
+}
+
+/* Timer States */
+.workshop-timer.warning .timer-display {
+    color: #f39c12;
+    animation: pulse 1s infinite;
+}
+
+.workshop-timer.urgent .timer-display {
+    color: #e74c3c;
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Fullscreen Timer */
+.workshop-timer.fullscreen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vh;
+    max-width: 600px;
+    max-height: 400px;
+    z-index: 2000;
+    background: rgba(255, 255, 255, 0.98);
+    border: 4px solid #667eea;
+}
+
+.workshop-timer.fullscreen .timer-display {
+    font-size: 4rem;
+    margin: 2rem 0;
+}
+
+.workshop-timer.fullscreen .timer-controls {
+    gap: 1rem;
+}
+
+.workshop-timer.fullscreen .timer-btn {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.5rem;
+    min-width: 60px;
+    height: 60px;
+}
+
+.workshop-timer.fullscreen .timer-presets {
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+}
+
+.workshop-timer.fullscreen .preset-btn {
+    padding: 0.6rem 1rem;
+    font-size: 1.2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .workshop-timer {
+        top: 20px;
+        right: 10px;
+        min-width: 250px;
+        padding: 0.8rem;
+    }
+
+    .timer-display {
+        font-size: 1.5rem;
+    }
+
+    .timer-presets {
+        gap: 0.2rem;
+    }
+
+    .preset-btn {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.7rem;
+    }
+}
+
+/* Polish: unify border radii and box shadows for cards */
+.info-card,
+.example-box,
+.link-box,
+.materials-box,
+.principle-card,
+.embed-container,
+.video-container,
+.author-portrait {
+    border-radius: 15px;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.08);
+}
+
+.section,
+.footer {
+    border-radius: 20px;
+}
+
+/* Polish: unify font for all headings */
+.section h2,
+.section h3,
+.section h4,
+.section h5,
+.footer h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+
+/* Polish: unify spacing for .info-grid and .principles-grid */
+.info-grid,
+.principles-grid {
+    gap: 2rem;
+    margin: 1.5rem 0;
 }

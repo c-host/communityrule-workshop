@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <button id="worksheet-toggle" class="worksheet-toggle" title="Open Worksheet">📝 Worksheet</button>
+    <button id="worksheet-toggle" class="worksheet-toggle" title="Open Worksheet">📝</button>
     <div id="worksheet-panel" class="worksheet-panel">
         <div class="worksheet-header">
             <span>Workshop Planning Worksheet</span>
@@ -41,6 +41,38 @@
             <label>Other Structural Elements:<br><textarea name="structureOther"></textarea></label>
             <button type="button" id="worksheet-download">Download as .txt</button>
         </form>
+    </div>
+
+    <!-- Timer Minimized Icon -->
+    <button id="timer-minimized-icon" class="timer-minimized-icon" title="Show Timer"
+        aria-label="Show Timer">⏱️</button>
+
+    <!-- Workshop Timer -->
+    <div id="workshop-timer" class="workshop-timer">
+        <div class="timer-header">
+            <span class="timer-display" id="timer-display">00:00</span>
+            <div class="timer-controls">
+                <button id="timer-minimize" class="timer-btn" title="Minimize Timer">–</button>
+                <button id="timer-play-pause" class="timer-btn" title="Start/Pause">▶️</button>
+                <button id="timer-reset" class="timer-btn" title="Reset">🔄</button>
+                <button id="timer-fullscreen" class="timer-btn" title="Fullscreen Timer">⛶</button>
+            </div>
+        </div>
+        <div class="timer-presets">
+            <button class="preset-btn" data-time="300">5m</button>
+            <button class="preset-btn" data-time="600">10m</button>
+            <button class="preset-btn" data-time="900">15m</button>
+            <button class="preset-btn" data-time="1200">20m</button>
+            <button class="preset-btn" data-time="1800">30m</button>
+            <button class="preset-btn" data-time="2700">45m</button>
+            <button class="preset-btn" data-time="3600">60m</button>
+        </div>
+        <div class="timer-custom">
+            <input type="number" id="custom-minutes" placeholder="Min" min="1" max="120">
+            <span>:</span>
+            <input type="number" id="custom-seconds" placeholder="Sec" min="0" max="59">
+            <button id="set-custom-time" class="timer-btn">Set</button>
+        </div>
     </div>
 
     <div class="container">
@@ -78,16 +110,19 @@
 
                 <div class="timeline-detail">
                     <h2>Facilitator Background</h2>
-                    <ul class="list">
-                        <div class="embed-container">
-                            <iframe src="https://c-host.site/" width="100%" height="100%" frameborder="0"></iframe>
-                        </div>
+                    <button class="add-embed-btn" type="button">+ Add Embed</button>
+                    <form class="add-embed-form" style="display:none; margin: 1rem 0;">
+                        <input type="text" class="embed-url-input"
+                            placeholder="Paste embed URL (Personal Website, YouTube, CommunityRule, etc.)"
+                            style="width:70%; padding:0.4rem;" required />
+                        <button type="submit">Add</button>
+                        <button type="button" class="cancel-embed-btn">Cancel</button>
+                    </form>
+                    <ul class="list" id="facilitator-embed-list">
+                        <!-- Dynamic embeds will be inserted here -->
                     </ul>
                     <ul class="list">
-                        <li>Background in music composition</li>
-                        <li>Experience collaboratively archiving activities of online communities</li>
-                        <li>Running online reading groups and creative activities</li>
-                        <li>Previously a community manager at Metagov</li>
+                        <li>Background and experience with communities and organizing</li>
                     </ul>
                 </div>
 
@@ -336,7 +371,9 @@
                     <div class="info-grid">
                         <div class="info-card">
                             <h4>Exercise & Prompts</h4>
-                            <p>Use the worksheet to write down how a group you're in is currently organized. Consider:
+                            <p>Use the worksheet [see the 📝 icon or <a
+                                    href="https://docs.google.com/document/d/e/2PACX-1vR7SWCC0WWY-rQ7CP2pOc9OYtL1sgiRlIe34OPho76Pcu2CSImcE8Bc9e4xrCEYqtsdiamoUzeP_j4S/pub">this
+                                    printout</a>] to write down how a group you're in is currently organized. Consider:
                             </p>
                             <ul class="list">
                                 <li>Ways your group works together</li>
@@ -449,8 +486,10 @@
                     </div>
                     <div class="highlight-box">
                         <h4>Optional: Publishing Rules</h4>
-                        <p>Participants can publish creations to the Library (optional). Note: Library is experimental
-                            and deletion requires contacting the website administrators.</p>
+                        <p>Participants can publish creations to the Library (optional). Note: You must create an
+                            account and login to publish your CommunityRule. If you prefer not to login, you can still
+                            download the CommunityRule as a text file. Library is experimental and deletion requires
+                            contacting the website administrators.</p>
                     </div>
                 </div>
 
@@ -465,6 +504,9 @@
                         <li>Click "Create" to start a new Rule</li>
                         <li>Drag and drop elements from: Culture, Decision, Process, Structure</li>
                         <li>Add details to each area with clear descriptions</li>
+                        <li>You can preview the final version of your CommunityRule by clicking "Preview" in the top
+                            right corner</li>
+                        <li>To return to editing your CommunityRule, click "Edit" in the top right corner</li>
                     </ol>
                 </div>
 
@@ -526,8 +568,33 @@
 
         <!-- Footer -->
         <div class="footer">
-            <h3>A Workshop Facilitated by Cent Hosten</h3>
-            <p><a href="https://c-host.site/Cent" target="_blank">Portfolio and more information</a></p>
+            <h3>Workshop Presentation Format Designed by Cent Hosten</h3>
+            <p>
+                <a href="https://c-host.site/Cent" target="_blank">Portfolio and more information</a> |
+                <a href="https://github.com/c-host/communityrule-workshop" target="_blank">GitHub Source</a>
+            </p>
+            <p style="margin-top:1.2rem; font-size:1.1rem;">
+                <strong>Facilitators:</strong> You are warmly invited to use, adapt, and remix this presentation for
+                your own workshops and communities.<br>
+                All materials are open and designed for collaborative improvement.
+            </p>
+            <p style="margin-top:0.8rem; font-size:1.05rem;">
+                <strong>Credits:</strong> This workshop is inspired by and makes use of <a
+                    href="https://communityrule.info/" target="_blank">CommunityRule</a> by the <a
+                    href="https://www.colorado.edu/lab/medlab/" target="_blank">Media Enterprise Design Lab</a> and <a
+                    href="https://metagov.org/" target="_blank">Metagov</a>.<br>
+                For online/remote workshops, please see <a
+                    href="https://communityrule.info/guides/governance-workshop/">this guide prepared by
+                    CommunityRule.</a><br>
+                Special thanks to <a href="https://nathanschneider.info/" target="_blank">Nathan Schneider</a>, <a
+                    href="https://www.dhornbein.com/" target="_blank">Drew Hornbein</a>, and the open source governance
+                community.
+            </p>
+            <p style="margin-top:0.8rem; font-size:1rem; color:#b3d9ff;">
+                Want to contribute or share feedback? <a href="https://github.com/c-host/communityrule-workshop/issues"
+                    target="_blank" style="color:#b3d9ff;text-decoration:underline;">Open an issue or pull request on
+                    GitHub</a>.
+            </p>
         </div>
     </div>
 </body>

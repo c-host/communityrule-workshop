@@ -90,61 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.observe(item);
     });
 
-    // Add keyboard navigation
-    document.addEventListener('keydown', function (e) {
-        const currentSection = Array.from(sections).findIndex(section => {
-            const rect = section.getBoundingClientRect();
-            return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
-        });
-
-        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-            e.preventDefault();
-            if (currentSection < sections.length - 1) {
-                sections[currentSection + 1].scrollIntoView({ behavior: 'smooth' });
-            }
-        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-            e.preventDefault();
-            if (currentSection > 0) {
-                sections[currentSection - 1].scrollIntoView({ behavior: 'smooth' });
-            }
-        } else if (e.key === 'Home') {
-            e.preventDefault();
-            sections[0].scrollIntoView({ behavior: 'smooth' });
-        } else if (e.key === 'End') {
-            e.preventDefault();
-            sections[sections.length - 1].scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-
-    // --- Timeline Entry Navigation (Up/Down) ---
-    const timelineEntries = Array.from(document.querySelectorAll('.timeline .time'));
-    document.addEventListener('keydown', function (e) {
-        // Only handle up/down for timeline navigation if not inside a tab
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-            const currentIndex = timelineEntries.findIndex(timeEl => {
-                const rect = timeEl.getBoundingClientRect();
-                return rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
-            });
-            if (e.key === 'ArrowDown' && currentIndex < timelineEntries.length - 1) {
-                e.preventDefault();
-                // Scroll to next time element and its timeline-item
-                const nextTime = timelineEntries[currentIndex + 1];
-                const nextItem = nextTime.nextElementSibling && nextTime.nextElementSibling.classList.contains('timeline-item')
-                    ? nextTime.nextElementSibling
-                    : nextTime.parentElement.querySelectorAll('.timeline-item')[currentIndex + 1];
-                nextTime.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if (nextItem) nextItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
-                e.preventDefault();
-                const prevTime = timelineEntries[currentIndex - 1];
-                const prevItem = prevTime.nextElementSibling && prevTime.nextElementSibling.classList.contains('timeline-item')
-                    ? prevTime.nextElementSibling
-                    : prevTime.parentElement.querySelectorAll('.timeline-item')[currentIndex - 1];
-                prevTime.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                if (prevItem) prevItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-    });
+    // Remove keyboard navigation for sections and timeline entries
+    // (Deleted document.addEventListener('keydown', ...) blocks for ArrowDown, ArrowUp, PageDown, PageUp, Home, End)
 
     // Add section counter
     const sectionCounter = document.createElement('div');
@@ -324,4 +271,302 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 100);
         });
     }
+
+    // --- Facilitator Background Dynamic Embed Logic ---
+    (function () {
+        const addBtn = document.querySelector('.add-embed-btn');
+        const form = document.querySelector('.add-embed-form');
+        const urlInput = form ? form.querySelector('.embed-url-input') : null;
+        const cancelBtn = form ? form.querySelector('.cancel-embed-btn') : null;
+        const embedList = document.getElementById('facilitator-embed-list');
+
+        // Function to add fullscreen button to an embed container
+        function addFullscreenButton(container) {
+            if (!container.querySelector('.fullscreen-btn')) {
+                const btn = document.createElement('button');
+                btn.className = 'fullscreen-btn';
+                btn.title = 'Expand to fullscreen';
+                btn.innerHTML = '⛶';
+
+                function isFullscreen() {
+                    return document.fullscreenElement === container ||
+                        document.webkitFullscreenElement === container ||
+                        document.msFullscreenElement === container;
+                }
+
+                function enterFullscreen() {
+                    if (container.requestFullscreen) {
+                        container.requestFullscreen();
+                    } else if (container.webkitRequestFullscreen) {
+                        container.webkitRequestFullscreen();
+                    } else if (container.msRequestFullscreen) {
+                        container.msRequestFullscreen();
+                    }
+                }
+
+                function exitFullscreen() {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if (document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    } else if (document.msExitFullscreen) {
+                        document.msExitFullscreen();
+                    }
+                }
+
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (!isFullscreen()) {
+                        enterFullscreen();
+                    } else {
+                        exitFullscreen();
+                    }
+                });
+
+                // Listen for fullscreen change to update button icon/title
+                function updateBtn() {
+                    if (isFullscreen()) {
+                        btn.innerHTML = '🡸';
+                        btn.title = 'Exit fullscreen';
+                    } else {
+                        btn.innerHTML = '⛶';
+                        btn.title = 'Expand to fullscreen';
+                    }
+                }
+                document.addEventListener('fullscreenchange', updateBtn);
+                document.addEventListener('webkitfullscreenchange', updateBtn);
+                document.addEventListener('msfullscreenchange', updateBtn);
+
+                container.appendChild(btn);
+            }
+        }
+
+        if (addBtn && form && urlInput && cancelBtn && embedList) {
+            addBtn.addEventListener('click', () => {
+                form.style.display = 'block';
+                urlInput.focus();
+            });
+            cancelBtn.addEventListener('click', () => {
+                form.style.display = 'none';
+                urlInput.value = '';
+            });
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                let url = urlInput.value.trim();
+                if (!url) return;
+                if (!/^https?:\/\//i.test(url)) {
+                    url = 'https://' + url;
+                }
+                let embedHtml = '';
+                // YouTube
+                const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/);
+                if (ytMatch) {
+                    const videoId = ytMatch[1];
+                    embedHtml = `<div class="embed-container"><iframe src="https://www.youtube.com/embed/${videoId}?rel=0" width="100%" height="400" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+                }
+                // CommunityRule
+                else if (url.match(/communityrule\.info\/create\/?\?r=\d+/)) {
+                    embedHtml = `<div class="embed-container"><iframe src="${url}" width="100%" height="600" frameborder="0"></iframe></div>`;
+                }
+                // Generic iframe fallback
+                else {
+                    embedHtml = `<div class="embed-container"><iframe src="${url}" width="100%" height="400" frameborder="0"></iframe></div>`;
+                }
+                const li = document.createElement('li');
+                li.innerHTML = embedHtml;
+                embedList.appendChild(li);
+
+                // Add fullscreen button to the newly created embed container
+                const newContainer = li.querySelector('.embed-container');
+                if (newContainer) {
+                    addFullscreenButton(newContainer);
+                }
+
+                form.style.display = 'none';
+                urlInput.value = '';
+            });
+        }
+    })();
+
+    // --- Workshop Timer Functionality ---
+    (function () {
+        const timer = document.getElementById('workshop-timer');
+        const timerDisplay = document.getElementById('timer-display');
+        const playPauseBtn = document.getElementById('timer-play-pause');
+        const resetBtn = document.getElementById('timer-reset');
+        const fullscreenBtn = document.getElementById('timer-fullscreen');
+        const minimizeBtn = document.getElementById('timer-minimize');
+        const minimizedIcon = document.getElementById('timer-minimized-icon');
+        const presetBtns = document.querySelectorAll('.preset-btn');
+        const customMinutes = document.getElementById('custom-minutes');
+        const customSeconds = document.getElementById('custom-seconds');
+        const setCustomBtn = document.getElementById('set-custom-time');
+
+        let timeLeft = 0;
+        let timerInterval = null;
+        let isRunning = false;
+        let totalTime = 0;
+
+        // --- Expansion State Management ---
+        function showMediumTimer() {
+            timer.classList.add('visible');
+            minimizedIcon.style.display = 'none';
+            timer.classList.remove('fullscreen');
+        }
+        function showMinimizedIcon() {
+            timer.classList.remove('visible');
+            minimizedIcon.style.display = 'flex';
+            timer.classList.remove('fullscreen');
+        }
+        function showFullscreenTimer() {
+            timer.classList.add('visible');
+            timer.classList.add('fullscreen');
+            minimizedIcon.style.display = 'none';
+        }
+        // Initial state: minimized icon only
+        showMinimizedIcon();
+
+        minimizedIcon.addEventListener('click', showMediumTimer);
+        minimizeBtn.addEventListener('click', showMinimizedIcon);
+        fullscreenBtn.addEventListener('click', () => {
+            if (timer.classList.contains('fullscreen')) {
+                timer.classList.remove('fullscreen');
+                fullscreenBtn.textContent = '⛶';
+                fullscreenBtn.title = 'Fullscreen Timer';
+                showMediumTimer();
+            } else {
+                showFullscreenTimer();
+                fullscreenBtn.textContent = '🡸';
+                fullscreenBtn.title = 'Exit Fullscreen';
+            }
+        });
+
+        // Hide minimized icon in fullscreen mode
+        function updateIconVisibility() {
+            if (timer.classList.contains('fullscreen')) {
+                minimizedIcon.style.display = 'none';
+            } else if (!timer.classList.contains('visible')) {
+                minimizedIcon.style.display = 'flex';
+            }
+        }
+
+        // --- Timer Logic ---
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function updateDisplay() {
+            timerDisplay.textContent = formatTime(timeLeft);
+            timer.classList.remove('warning', 'urgent');
+            if (timeLeft <= 120 && timeLeft > 0) {
+                timer.classList.add('urgent');
+            } else if (timeLeft <= 300 && timeLeft > 0) {
+                timer.classList.add('warning');
+            }
+        }
+
+        function startTimer() {
+            if (timeLeft > 0 && !isRunning) {
+                isRunning = true;
+                playPauseBtn.textContent = '⏸️';
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateDisplay();
+                    if (timeLeft <= 0) {
+                        stopTimer();
+                        if ('Notification' in window && Notification.permission === 'granted') {
+                            new Notification('Time\'s up!', { body: 'Workshop timer has finished.' });
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            isRunning = false;
+            playPauseBtn.textContent = '▶️';
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timeLeft = totalTime;
+            updateDisplay();
+        }
+
+        function setTime(seconds) {
+            stopTimer();
+            timeLeft = seconds;
+            totalTime = seconds;
+            updateDisplay();
+        }
+
+        // Event Listeners
+        playPauseBtn.addEventListener('click', () => {
+            if (isRunning) {
+                stopTimer();
+            } else {
+                startTimer();
+            }
+        });
+
+        resetBtn.addEventListener('click', resetTimer);
+
+        presetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const time = parseInt(btn.dataset.time);
+                setTime(time);
+                presetBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        setCustomBtn.addEventListener('click', () => {
+            const minutes = parseInt(customMinutes.value) || 0;
+            const seconds = parseInt(customSeconds.value) || 0;
+            const totalSeconds = minutes * 60 + seconds;
+            if (totalSeconds > 0) {
+                setTime(totalSeconds);
+                customMinutes.value = '';
+                customSeconds.value = '';
+                presetBtns.forEach(b => b.classList.remove('active'));
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement.tagName === 'INPUT') return;
+            switch (e.key) {
+                case ' ': e.preventDefault(); if (isRunning) stopTimer(); else startTimer(); break;
+                case 'r': case 'R': resetTimer(); break;
+                case 'f': case 'F':
+                    if (timer.classList.contains('fullscreen')) {
+                        timer.classList.remove('fullscreen');
+                        fullscreenBtn.textContent = '⛶';
+                        fullscreenBtn.title = 'Fullscreen Timer';
+                        showMediumTimer();
+                    } else {
+                        showFullscreenTimer();
+                        fullscreenBtn.textContent = '🡸';
+                        fullscreenBtn.title = 'Exit Fullscreen';
+                    }
+                    break;
+                case 'm': case 'M':
+                    if (timer.classList.contains('visible') && !timer.classList.contains('fullscreen')) {
+                        showMinimizedIcon();
+                    } else if (!timer.classList.contains('visible')) {
+                        showMediumTimer();
+                    }
+                    break;
+            }
+        });
+
+        // Initialize timer
+        updateDisplay();
+    })();
 });
